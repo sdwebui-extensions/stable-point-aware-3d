@@ -18,6 +18,7 @@ import collections.abc
 import math
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Set, Tuple, Union
+import os
 
 import torch
 import torch.nn.functional as F
@@ -63,6 +64,11 @@ DINOV2_PRETRAINED_MODEL_ARCHIVE_LIST = [
     "facebook/dinov2-base",
     # See all DINOv2 models at https://huggingface.co/models?filter=dinov2
 ]
+
+if os.path.exists("/stable-diffusion-cache/models/dinov2-base"):
+    _CHECKPOINT_FOR_DOC = "/stable-diffusion-cache/models/dinov2-base"
+    _IMAGE_CLASS_CHECKPOINT = "/stable-diffusion-cache/models/dinov2-base"
+    DINOV2_PRETRAINED_MODEL_ARCHIVE_LIST = ["/stable-diffusion-cache/models/dinov2-base",]
 
 
 class Dinov2Embeddings(nn.Module):

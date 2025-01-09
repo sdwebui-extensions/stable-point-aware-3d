@@ -10,12 +10,15 @@ from torch import Tensor
 from spar3d.models.tokenizers.dinov2 import Dinov2Model
 from spar3d.models.transformers.attention import Modulation
 from spar3d.models.utils import BaseModule
+import os
 
 
 class DINOV2SingleImageTokenizer(BaseModule):
     @dataclass
     class Config(BaseModule.Config):
-        pretrained_model_name_or_path: str = "facebook/dinov2-large"
+        pretrained_model_name_or_path: str =  "facebook/dinov2-large"
+        if os.path.exists("/stable-diffusion-cache/models/dinov2-large"):
+            pretrained_model_name_or_path = "/stable-diffusion-cache/models/dinov2-large"
         width: int = 512
         height: int = 512
         modulation_cond_dim: int = 768
