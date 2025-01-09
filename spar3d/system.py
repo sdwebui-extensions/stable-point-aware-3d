@@ -127,15 +127,17 @@ class SPAR3D(BaseModule):
         weight_name: str,
         low_vram_mode: bool = False,
     ):
-        base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-        if os.path.isdir(os.path.join(base_dir, pretrained_model_name_or_path)):
-            config_path = os.path.join(
-                base_dir, pretrained_model_name_or_path, config_name
-            )
-            weight_path = os.path.join(
-                base_dir, pretrained_model_name_or_path, weight_name
-            )
+        if os.path.exists(pretrained_model_name_or_path):
+            if os.path.isdir(pretrained_model_name_or_path):
+                config_path = os.path.join(
+                    pretrained_model_name_or_path, config_name
+                )
+                weight_path = os.path.join(
+                    pretrained_model_name_or_path, weight_name
+                )
         else:
+            print(f'pls download stabilityai/stable-point-aware-3d to {pretrained_model_name_or_path}')
+            pretrained_model_name_or_path = "stabilityai/stable-point-aware-3d"
             config_path = hf_hub_download(
                 repo_id=pretrained_model_name_or_path, filename=config_name
             )

@@ -19,7 +19,9 @@ from spar3d.system import SPAR3D
 from spar3d.utils import foreground_crop
 
 SPAR3D_CATEGORY = "SPAR3D"
-SPAR3D_MODEL_NAME = "stabilityai/spar3d"
+SPAR3D_MODEL_NAME = f"{folder_paths.models_dir}/spar3d"
+if os.path.exists(folder_paths.cache_dir) and not os.path.exists(SPAR3D_MODEL_NAME):
+    SPAR3D_MODEL_NAME = f"{folder_paths.cache_dir}/spar3d"
 
 
 class SPAR3DLoader:
