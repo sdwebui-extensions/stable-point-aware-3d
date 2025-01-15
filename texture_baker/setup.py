@@ -81,7 +81,7 @@ def get_extensions():
         sources += glob.glob(
             os.path.join(this_dir, library_name, "csrc", "**", "*.mm"), recursive=True
         )
-        extra_compile_args.update({"cxx": ["-O3", "-arch", "arm64"]})
+        extra_compile_args.update({"cxx": ["-O3", "-arch", "arm64", "-mmacosx-version-min=10.15"]})
         extra_link_args += ["-arch", "arm64"]
 
     extensions.append(

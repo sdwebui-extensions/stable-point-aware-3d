@@ -1,7 +1,6 @@
 # SPAR3D: Stable Point-Aware Reconstruction of 3D Objects from Single Images
 
-<!--<a href="https://arxiv.org/abs/2408.00653"><img src="https://img.shields.io/badge/Arxiv-2408.00653-B31B1B.svg"></a>-->
-<a href="https://huggingface.co/stabilityai/stable-point-aware-3d"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Model_Card-Huggingface-orange"></a> <a href="https://huggingface.co/spaces/stabilityai/stable-point-aware-3d"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Gradio%20Demo-Huggingface-orange"></a>
+<a href="https://arxiv.org/abs/2501.04689"><img src="https://img.shields.io/badge/Arxiv-2501.04689-B31B1B.svg"></a> <a href="https://huggingface.co/stabilityai/stable-point-aware-3d"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Model_Card-Huggingface-orange"></a> <a href="https://huggingface.co/spaces/stabilityai/stable-point-aware-3d"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Gradio%20Demo-Huggingface-orange"></a>
 
 <div align="center">
   <img src="demo_files/turntable.gif" alt="Teaser">
@@ -25,7 +24,9 @@ SPAR3D is based on [Stable Fast 3D](https://github.com/Stability-AI/stable-fast-
 
 Ensure your environment is:
 - Python >= 3.8 (Depending on PyTorch version >3.9)
-- Optional: CUDA has to be available
+- Optional: CUDA or MPS has to be available
+- For Windows **(experimental)**: Visual Studio 2022
+- For Mac (MPS) **(experimental)**: OSX 15.2 (Sequoia) and above
 - Has PyTorch installed according to your platform: https://pytorch.org/get-started/locally/ [Make sure the Pytorch CUDA version matches your system's.]
 - Update setuptools by `pip install -U setuptools==69.5.1`
 - Install wheel by `pip install wheel`
@@ -45,6 +46,27 @@ Our model is gated at [Hugging Face](https://huggingface.co):
 ### Low VRAM Mode
 
 To run SPAR3D with low VRAM mode, set the environment variable `SPAR3D_LOW_VRAM=1`. By default, SPAR3D consumes 10.5GB of VRAM. This mode will reduce the VRAM consumption to roughly 7GB but in exchange the model will be slower. The `run.py` script also supports the `--low-vram-mode` flag.
+
+### Windows Support **(experimental)**
+
+To run Stable Fast 3D on Windows, you must install Visual Studio (currently tested on VS 2022) and the appropriate PyTorch and CUDA versions.
+Then, follow the installation steps as mentioned above.
+
+Note that Windows support is **experimental** and not guaranteed to give the same performance and/or quality as Linux.
+
+### Support for MPS (for Mac Silicon) **(experimental)**
+
+Stable Fast 3D can also run on Macs via the MPS backend, with the texture baker using custom metal kernels similar to the corresponding CUDA kernels.
+
+Support is only available for OSX 15.2 (Sequoia) and above.
+
+Note that support is **experimental** and not guaranteed to give the same performance and/or quality as the CUDA backend.
+
+MPS backend support was tested on M4 max 36GB with the latest PyTorch release and OSX 15.2 (Sequoia). We recommend you install the latest PyTorch (2.5.1 as of writing) and/or the nightly version to avoid any issues that my arise with older PyTorch versions.
+
+You also need to run the code with `PYTORCH_ENABLE_MPS_FALLBACK=1`.
+
+MPS currently consumes more memory compared to the CUDA PyTorch backend. We recommend running the CPU version if your system has less than 32GB of unified memory.
 
 ### CPU Support
 
@@ -104,10 +126,10 @@ Additionally the target vertex or face count can be specified. This is not a har
 
 ## Citation
 ```BibTeX
-@article{spar3d2024,
-  title={SPAR3D: Stable Point-Aware Reconstruction of 3D Objects from Single Images},
+@article{spar3d2025,
+  title={{SPAR3D}: Stable Point-Aware Reconstruction of {3D} Objects from Single Images},
   author={Huang, Zixuan and Boss, Mark and Vasishta, Aaryaman and Rehg, James Matthew and Jampani, Varun},
   journal={arXiv preprint},
-  year={2024}
+  year={2025}
 }
 ```
