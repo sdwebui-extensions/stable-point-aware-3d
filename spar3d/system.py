@@ -40,17 +40,6 @@ from spar3d.utils import (
     normalize_pc_bbox,
 )
 
-try:
-    from texture_baker import TextureBaker
-except ImportError:
-    import logging
-
-    logging.warning(
-        "Could not import texture_baker. Please install it via `pip install texture-baker/`"
-    )
-    # Exit early to avoid further errors
-    raise ImportError("texture_baker not found")
-
 
 class SPAR3D(BaseModule):
     @dataclass
@@ -166,6 +155,7 @@ class SPAR3D(BaseModule):
         return next(self.parameters()).device
 
     def configure(self):
+        from texture_baker import TextureBaker
         # Initialize all modules as None
         self.image_tokenizer = None
         self.point_embedder = None

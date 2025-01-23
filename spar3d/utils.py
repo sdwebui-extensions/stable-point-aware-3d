@@ -4,7 +4,6 @@ import numpy as np
 import torch
 import torchvision.transforms.functional as torchvision_F
 from PIL import Image
-from transparent_background import Remover
 
 import spar3d.models.utils as spar3d_utils
 
@@ -90,7 +89,7 @@ def normalize_pc_bbox(pc, scale=1.0):
 
 def remove_background(
     image: Image,
-    bg_remover: Remover = None,
+    bg_remover = None,
     force: bool = False,
     **transparent_background_kwargs,
 ) -> Image:

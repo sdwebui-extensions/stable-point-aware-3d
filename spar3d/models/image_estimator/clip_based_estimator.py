@@ -2,7 +2,6 @@ import os
 from dataclasses import dataclass, field
 from typing import Any, List, Optional
 
-import alpha_clip
 import torch
 import torch.nn as nn
 from jaxtyping import Float
@@ -46,6 +45,7 @@ class ClipBasedHeadEstimator(BaseModule):
     cfg: Config
 
     def configure(self):
+        import alpha_clip
         self.model, _ = alpha_clip.load(
             self.cfg.model, download_root=os.environ.get("ALPHA_CLIP_PATH", None)
         )  # change to your own ckpt path

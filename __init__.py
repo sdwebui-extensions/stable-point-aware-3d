@@ -9,9 +9,7 @@ import comfy.model_management
 import folder_paths
 import numpy as np
 import torch
-import trimesh
 from PIL import Image
-from trimesh.exchange import gltf
 
 sys.path.append(os.path.dirname(__file__))
 from spar3d.models.mesh import QUAD_REMESH_AVAILABLE, TRIANGLE_REMESH_AVAILABLE
@@ -63,6 +61,8 @@ class SPAR3DPreview:
         return {"required": {"mesh": ("MESH",)}}
 
     def preview(self, mesh):
+        import trimesh
+        from trimesh.exchange import gltf
         glbs = []
         for m in mesh:
             scene = trimesh.Scene(m)
@@ -220,6 +220,8 @@ class SPAR3DSave:
         self.type = "output"
 
     def save(self, mesh, filename_prefix):
+        import trimesh
+        from trimesh.exchange import gltf
         output_dir = folder_paths.get_output_directory()
         glbs = []
         for idx, m in enumerate(mesh):
@@ -253,6 +255,7 @@ class SPAR3DPointCloudLoader:
         }
 
     def load_pointcloud(self, file):
+        import trimesh
         if file is None or file == "":
             return (None,)
         # Load the mesh using trimesh
@@ -302,6 +305,7 @@ class SPAR3DPointCloudSaver:
         }
 
     def save_pointcloud(self, pointcloud, filename_prefix):
+        import trimesh
         if pointcloud is None:
             return {"ui": {"text": "No point cloud data to save"}}
 

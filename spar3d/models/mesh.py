@@ -6,54 +6,18 @@ from typing import Any, Dict, Optional
 import numpy as np
 import torch
 import torch.nn.functional as F
-import trimesh
 from jaxtyping import Float, Integer
 from torch import Tensor
 
 from spar3d.models.utils import dot
 
-try:
-    from uv_unwrapper import Unwrapper
-except ImportError:
-    import logging
-
-    logging.warning(
-        "Could not import uv_unwrapper. Please install it via `pip install uv_unwrapper/`"
-    )
-    # Exit early to avoid further errors
-    raise ImportError("uv_unwrapper not found")
-
-try:
-    import gpytoolbox
-
-    TRIANGLE_REMESH_AVAILABLE = True
-except ImportError:
-    TRIANGLE_REMESH_AVAILABLE = False
-    import logging
-
-    logging.warning(
-        "Could not import gpytoolbox. Triangle remeshing functionality will be disabled. "
-        "Install via `pip install gpytoolbox`"
-    )
-
-try:
-    import pynanoinstantmeshes
-
-    QUAD_REMESH_AVAILABLE = True
-except ImportError:
-    QUAD_REMESH_AVAILABLE = False
-    import logging
-
-    logging.warning(
-        "Could not import pynanoinstantmeshes. Quad remeshing functionality will be disabled. "
-        "Install via `pip install pynanoinstantmeshes==0.0.3`"
-    )
-
+QUAD_REMESH_AVAILABLE = True
 
 class Mesh:
     def __init__(
         self, v_pos: Float[Tensor, "Nv 3"], t_pos_idx: Integer[Tensor, "Nf 3"], **kwargs
     ) -> None:
+        from uv_unwrapper import Unwrapper
         self.v_pos: Float[Tensor, "Nv 3"] = v_pos
         self.t_pos_idx: Integer[Tensor, "Nf 3"] = t_pos_idx
         self._v_nrm: Optional[Float[Tensor, "Nv 3"]] = None
@@ -180,6 +144,8 @@ class Mesh:
         quad_smooth_iter: int = 2,
         quad_align_to_boundaries: bool = False,
     ) -> Mesh:
+        import trimesh
+        import pynanoinstantmeshes
         if not QUAD_REMESH_AVAILABLE:
             raise ImportError("Quad remeshing requires pynim to be installed")
         if quad_vertex_count < 0:
@@ -214,6 +180,7 @@ class Mesh:
         triangle_remesh_steps: int = 10,
         triangle_vertex_count=-1,
     ):
+        import gpytoolbox
         if not TRIANGLE_REMESH_AVAILABLE:
             raise ImportError("Triangle remeshing requires gpytoolbox to be installed")
         if triangle_vertex_count > 0:
@@ -281,6 +248,7 @@ class Mesh:
         self,
         island_padding: float = 0.02,
     ) -> Mesh:
+        from uv_unwrapper import Unwrapper
         uv, indices = self.unwrapper(
             self.v_pos, self.v_nrm, self.t_pos_idx, island_padding
         )
