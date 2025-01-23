@@ -12,6 +12,7 @@ from torch import Tensor
 from spar3d.models.utils import dot
 
 QUAD_REMESH_AVAILABLE = True
+TRIANGLE_REMESH_AVAILABLE = True
 
 class Mesh:
     def __init__(
